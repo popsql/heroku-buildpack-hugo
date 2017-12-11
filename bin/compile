@@ -65,6 +65,14 @@ if [ -e $BUILD_DIR/.hugotheme ]; then
   git clone $THEME_URL
 fi
 
+# Download sprockets manifest file
+echo "\n-----> Finding and downloading sprockets manifest"
+SPROCKETS_MANIFEST_URL=$(curl -s "${APP_URL}/api/v1/sprockets_manifest")
+echo "Found manifest at ${SPROCKETS_MANIFEST_URL}" | indent
+mkdir -p $BUILD_DIR/data
+curl -s -o $BUILD_DIR/data/assets.json $SPROCKETS_MANIFEST_URL
+echo "Downloaded manifest" | indent
+
 # Build the site
 echo "\n-----> Building the site"
 cd $BUILD_DIR
